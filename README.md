@@ -8,7 +8,7 @@ Item|description
 [scitq-examples](https://github.com/gmtsciencedev/scitq-examples)|The code used to generate and analyse the samples
 [dataverse](#)|The dataverse where the simulated samples are available
 
-Which leave in this repository:
+Locally in this repository:
 
 - the figure code available in [figure_code](./figure_code) folder
 - the figure data available in [figure_data](./figure_data) folder
