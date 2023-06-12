@@ -6,6 +6,8 @@ Item|description
 --|--
 [scitq](https://github.com/gmtsciencedev/scitq)|A task distribution system used to generate and analyse the samples
 [scitq-examples](https://github.com/gmtsciencedev/scitq-examples)|The code used to generate and analyse the samples
+[containers](https://hub.docker.com/u/gmtscience)|The containers used in the code mentionned above (except for [CAMISIM container](https://hub.docker.com/r/cami/camisim)). They can all be used with or without scitq.
+[container source](https://github.com/gmtsciencedev/bioit-dockers)|The source code of above mentionned containers
 [dataverse](#)|The dataverse where the simulated samples are available
 
 Locally in this repository:
