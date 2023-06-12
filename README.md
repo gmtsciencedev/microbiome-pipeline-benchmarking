@@ -12,3 +12,4 @@ Locally in this repository:
 
 - the figure code available in [figure_code](./figure_code) folder
 - the figure data available in [figure_data](./figure_data) folder
+- the different feature space (a.k.a. reference catalogs) projections in [feature_space_projections](./feature_space_projections/)
