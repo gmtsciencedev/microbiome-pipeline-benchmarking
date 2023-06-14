@@ -106,33 +106,3 @@ if __name__ == "__main__":
     superconf = pd.concat([conf.stack().rename(name) for name, conf in zip(names, confs)], axis=1)
     superconf.to_csv(outdir + "../superconf_{}_{}.tsv".format(simu, space), sep="\t")
 
-    if False:
-        #saving detailed information on false positives and false negatives
-        for fname, conf, sat in zip(fnames, confs, matched_sats):
-            print(fname)
-            summary = []
-            for smpl, FPRA in conf["FPRA"].sort_values(ascending=False).items():
-                x, y = sat_ref[smpl], sat[smpl]
-                FPs = y[(x==0)&(y>0)].sort_values(ascending=False)
-                # summary.extend([[name, smpl, sp, fpra, 0.] for sp, fpra in FPs.items()])
-                summary.extend([[fname, smpl, sp, fpra, 0.] for sp, fpra in FPs.items()])
-                FNs = x[(x>0)&(y==0)].sort_values(ascending=False)
-                # summary.extend([[name, smpl, sp, 0., fnra] for sp, fnra in FNs.items()])
-                summary.extend([[fname, smpl, sp, 0., fnra] for sp, fnra in FNs.items()])
-
-            # summary = pd.DataFrame(summary, columns=["tool", "sample", "feature", "FPRA", "FNRA"])
-            summary = pd.DataFrame(summary, columns=["tool", "sample", "feature", "FPRA", "FNRA"])
-            summary.to_csv(outdir + "../FPRA_summary_{}.tsv".format(fname), sep="\t", index=False)
-
-
-    # #--------------------------------------------------------------------
-    # kept = [pd.read_csv(indir + "{}_kept.tsv".format(name), sep="\t", index_col=0) for name in ["reference"] + fnames]
-
-    # names1 = ["reference"] + names
-    # lost_abundance = pd.concat([df.iloc[:,-1] for df in kept], axis=1).clip(lower=10**-15)
-    # lost_abundance.columns = names1
-    # lost_clades = pd.concat([df.iloc[:,-2] for df in kept], axis=1)
-    # lost_clades.columns = names1
-
-    # lost_abundance.to_csv(outdir + "../lost_abundance.tsv", sep="\t")
-    # lost_clades.to_csv(outdir + "../lost_clades.tsv", sep="\t")
