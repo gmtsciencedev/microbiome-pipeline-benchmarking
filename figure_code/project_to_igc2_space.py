@@ -29,7 +29,7 @@ def lost_stat(sat, idx_kept):
     df_kept["Lost_abundance"] = 1. - df_kept["Kept_abundance"]
     return df_kept
 
-simu = "simuCRC2b"#simuCRC2k#simuCRC2b#simuCRC
+simu = "refBioms"#simuCRC2k#simuCRC2b#simuCRC
 
 if __name__ == "__main__":
 
@@ -42,7 +42,7 @@ if __name__ == "__main__":
 
     refdir = "../data/taxo_indexes/"
     indir = "../data/{}_raw/".format(simu) 
-    outdir = "../data/{}_to_msp/".format(simu)
+    outdir = "../data/{}_to_igc2/".format(simu)
     if not os.path.exists(outdir):
         os.makedirs(outdir)
 
@@ -54,12 +54,12 @@ if __name__ == "__main__":
     SAT0 = SAT0.divide(SAT0.sum(), axis=1) #normalizing SAT
     # SAT0.to_csv(outdir + "reference_raw_norm.sat", sep="\t") #properly labeled raw sat 
 
-    corresp_ref = pd.read_csv(refdir + "reference_to_msp_final.tsv", sep="\t", index_col=0)
+    corresp_ref = pd.read_csv(refdir + "reference_to_igc2_final.tsv", sep="\t", index_col=0)
     dM = parse_corresp(corresp_ref["msp"])
 
     idx = SAT0.index.difference(dM.columns)
     if idx.size > 0:
-        pd.DataFrame([], index=idx).to_csv(outdir + "missing_mgnify_to_msp.tsv")
+        pd.DataFrame([], index=idx).to_csv(outdir + "missing_mgnify_to_igc2.tsv")
 
     cols = dM.columns.intersection(SAT0.index)
     sat0 = dM[cols].dot(SAT0.loc[cols])
@@ -86,12 +86,12 @@ if __name__ == "__main__":
     SAT = SAT.divide(SAT.sum(), axis=1) #normalizing SAT
     # SAT.to_csv(outdir + "motus3_raw_norm.sat", sep="\t") #properly labeled raw sat 
 
-    corresp_motus = pd.read_csv(refdir + "motus3_to_msp_final.tsv", sep="\t", index_col=0)
+    corresp_motus = pd.read_csv(refdir + "motus3_to_igc2_final.tsv", sep="\t", index_col=0)
     dM = parse_corresp(corresp_motus["msp"])
 
     idx = SAT.index.difference(dM.columns)
     if idx.size > 0:
-        pd.DataFrame([], index=idx).to_csv(outdir + "missing_motus3_to_msp.tsv")
+        pd.DataFrame([], index=idx).to_csv(outdir + "missing_motus3_to_igc2.tsv")
 
     cols = dM.columns.intersection(SAT.index)
     sat = dM[cols].dot(SAT.loc[cols])
@@ -118,12 +118,12 @@ if __name__ == "__main__":
     SAT = SAT.divide(SAT.sum(), axis=1) #normalizing SAT
     # SAT.to_csv(outdir + "metaphlan4_raw_norm.sat", sep="\t") #properly labeled raw sat 
 
-    corresp_metaphlan4 = pd.read_csv(refdir + "metaphlan4_to_msp_final.tsv", sep="\t", index_col=0)
+    corresp_metaphlan4 = pd.read_csv(refdir + "metaphlan4_to_igc2_final.tsv", sep="\t", index_col=0)
     dM = parse_corresp(corresp_metaphlan4["msp"])
 
     idx = SAT.index.difference(dM.columns)
     if idx.size > 0:
-        pd.DataFrame([], index=idx).to_csv(outdir + "missing_metaphlan4_to_msp.tsv")
+        pd.DataFrame([], index=idx).to_csv(outdir + "missing_metaphlan4_to_igc2.tsv")
 
     cols = dM.columns.intersection(SAT.index)
     sat = dM[cols].dot(SAT.loc[cols])
@@ -148,12 +148,12 @@ if __name__ == "__main__":
     SAT = SAT.divide(SAT.sum(), axis=1) #normalizing SAT
     # SAT.to_csv(outdir + "metaphlan3_raw_norm.sat", sep="\t")
 
-    corresp_metaphlan3 = pd.read_csv(refdir + "metaphlan3_to_msp_final.tsv", sep="\t", index_col=0)
+    corresp_metaphlan3 = pd.read_csv(refdir + "metaphlan3_to_igc2_final.tsv", sep="\t", index_col=0)
     dM = parse_corresp(corresp_metaphlan3["msp"])
 
     idx = SAT.index.difference(dM.columns)
     if idx.size > 0:
-        pd.DataFrame([], index=idx).to_csv(outdir + "missing_metaphlan3_to_msp.tsv")
+        pd.DataFrame([], index=idx).to_csv(outdir + "missing_metaphlan3_to_igc2.tsv")
 
     cols = dM.columns.intersection(SAT.index)
     sat = dM[cols].dot(SAT.loc[cols])
@@ -177,12 +177,12 @@ if __name__ == "__main__":
     SAT = SAT[SAT.sum(axis=1)>0]
     # SAT.to_csv(outdir + "kraken2_raw_norm.sat", sep="\t")
 
-    corresp_kraken = pd.read_csv(refdir + "kraken2_to_msp_final.tsv", sep="\t", index_col=0)
+    corresp_kraken = pd.read_csv(refdir + "kraken2_to_igc2_final.tsv", sep="\t", index_col=0)
     dM = parse_corresp(corresp_kraken["msp"])
 
     idx = SAT.index.difference(dM.columns)
     if idx.size > 0:
-        pd.DataFrame([], index=idx).to_csv(outdir + "missing_kraken2_to_msp.tsv")
+        pd.DataFrame([], index=idx).to_csv(outdir + "missing_kraken2_to_igc2.tsv")
 
     cols = dM.columns.intersection(SAT.index)
     sat = dM[cols].dot(SAT.loc[cols])
@@ -250,4 +250,4 @@ if __name__ == "__main__":
 
     #saving data as a single table
     supersat = pd.concat([sat.stack().rename(name) for name, sat in zip(names, matched_sats)], axis=1)
-    supersat.to_csv(outdir + "supersat_{}_msp.sat".format(simu), sep="\t")
+    supersat.to_csv(outdir + "supersat_{}_igc2.sat".format(simu), sep="\t")

@@ -7,7 +7,7 @@ import sys, os, re
 
 from project_to_msp_space import lost_stat
 
-simu = "simuCRC"#simuCRC2k#simuCRC2b#simuCRC
+simu = "refMet4"#simuCRC2k#simuCRC2b#simuCRC
 
 if __name__ == "__main__":
 

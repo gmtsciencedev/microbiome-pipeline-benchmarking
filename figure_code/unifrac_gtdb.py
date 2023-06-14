@@ -15,7 +15,7 @@ from metrics_aux import intermatrix_norms
 
 
 #------------------------------------------------------------------------------
-simu = "simuCRC"#"simuCRC2k"#"simuCRC2b"#"simuCRC"
+simu = "refMet4"#"simuCRC2k"#"simuCRC2b"#"simuCRC"
 space = "gtdb207"
 names = ["kraken2 + bracken", "metaphlan3", "motus3", "metaphlan4", "biomscope"]
 fnames = ["kraken2", "metaphlan3", "motus3", "metaphlan4", "biomscope"]

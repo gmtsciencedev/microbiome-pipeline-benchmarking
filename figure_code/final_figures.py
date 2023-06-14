@@ -121,11 +121,10 @@ def simple_beeswarm(y, nbins=None, width=1.):
 #names and labels
 names = ["kraken2 + bracken", "metaphlan3", "motus3", "metaphlan4", "biomscope"]
 fnames = ["kraken2", "metaphlan3", "motus3", "metaphlan4", "biomscope"]
-simuls = ["simuCRC2k", "simuCRC2b", "simuCRC"]
-spaces = ["gtdb207", "msp"]
+simuls = ["refKrak", "refBioms", "refMet4"]
+spaces = ["gtdb207", "igc2"]
 
-simu_labs = {"simuCRC": "refMet4", "simuCRC2b": "refBioms", "simuCRC2k": "refKrak"}
-space_labs = {"gtdb207": "GTDB", "msp": "IGC2"}
+space_labs = {"gtdb207": "GTDB", "igc2": "IGC2"}
 tool_labs = {"kraken2 + bracken": "Krak/Brac", 
              "kraken2" : "Krak/Brac",
              "metaphlan3": "MPA3", 
@@ -135,7 +134,7 @@ tool_labs = {"kraken2 + bracken": "Krak/Brac",
              "simulation" : "Ref",
              "reference" : "Ref"}
 
-labs = ["{}, {}".format(simu_labs[simu], space_labs[sp]) for simu in simuls for sp in spaces]
+labs = ["{}, {}".format(simu, space_labs[sp]) for simu in simuls for sp in spaces]
 idx =pd.MultiIndex.from_product([simuls, spaces], names=["space", "simu"])
 
 nn_smpls = np.arange(343)

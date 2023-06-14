@@ -12,7 +12,7 @@ from metrics_aux import *
 # from article_figures import *
 
 
-simu = "simuCRC2k"#"simuCRC2k"#"simuCRC2b"#"simuCRC"
+simu = "refKrak"#"simuCRC2k"#"simuCRC2b"#"simuCRC"
 space = "gtdb207"#"msp"#"gtdb207"
 names = ["kraken2 + bracken", "metaphlan3", "motus3", "metaphlan4", "biomscope"]
 

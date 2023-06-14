@@ -6,8 +6,8 @@ import pandas as pd
 import os
 
 names = ["kraken2 + bracken", "metaphlan3", "motus3", "metaphlan4", "biomscope"]
-simuls = ["simuCRC2b", "simuCRC2k", "simuCRC"]#["simuCRC", "simuCRC2b", "simuCRC2k"]
-spaces = ["gtdb207", "msp"]
+simuls = ["refBioms", "refKrak", "refMet4"]#["simuCRC", "simuCRC2b", "simuCRC2k"]
+spaces = ["gtdb207", "igc2"]
 
 if __name__ == "__main__":
     """

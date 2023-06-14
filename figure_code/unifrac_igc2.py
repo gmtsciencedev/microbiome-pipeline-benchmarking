@@ -15,8 +15,8 @@ from metrics_aux import intermatrix_norms
 
 
 #------------------------------------------------------------------------------
-simu = "simuCRC"#"simuCRC2k"#"simuCRC2b"#"simuCRC"
-space = "msp"
+simu = "refMet4"#"simuCRC2k"#"simuCRC2b"#"simuCRC"
+space = "igc2"
 names = ["kraken2 + bracken", "metaphlan3", "motus3", "metaphlan4", "biomscope"]
 fnames = ["kraken2", "metaphlan3", "motus3", "metaphlan4", "biomscope"]
 
@@ -38,7 +38,7 @@ if __name__ == "__main__":
     Calculating UniFrac distance matrices in IGC2/MSP space
     """
 
-    outdir = "../analyses/article_results_{}_msp/unifrac/".format(simu)
+    outdir = "../analyses/article_results_{}_igc2/unifrac/".format(simu)
     if not os.path.exists(outdir):
         os.makedirs(outdir)
 
