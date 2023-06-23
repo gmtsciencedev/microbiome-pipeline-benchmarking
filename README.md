@@ -9,7 +9,7 @@ Item|description
 [containers](https://hub.docker.com/u/gmtscience)|The containers used in the code mentionned above (except for [CAMISIM container](https://hub.docker.com/r/cami/camisim)). They can all be used with or without scitq.
 [container source](https://github.com/gmtsciencedev/bioit-dockers)|The source code of above mentionned containers
 [dataverse](#)|The dataverse where the simulated samples are available
-[PRJEB6070](https://www.ebi.ac.uk/ena/browser/view/PRJEB6070) [PRJEB7774](https://www.ebi.ac.uk/ena/browser/view/PRJEB7774)|The original sample from which the simulation was derived|
+[PRJEB6070](https://www.ebi.ac.uk/ena/browser/view/PRJEB6070) [PRJEB7774](https://www.ebi.ac.uk/ena/browser/view/PRJEB7774)|The original samples from which the simulation was derived|
 [MGNIFY](http://ftp.ebi.ac.uk/pub/databases/metagenomics/mgnify_genomes/human-gut/v2.0.1/)|The MGNIFY genomes upon which the simulation was based on|
 
 ## Locally in this repository
