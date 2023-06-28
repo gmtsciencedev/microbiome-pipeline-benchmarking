@@ -8,7 +8,7 @@ Item|description
 [scitq-examples](https://github.com/gmtsciencedev/scitq-examples)|The code used to generate and analyse the samples
 [containers](https://hub.docker.com/u/gmtscience)|The containers used in the code mentionned above (except for [CAMISIM container](https://hub.docker.com/r/cami/camisim)). They can all be used with or without scitq.
 [container source](https://github.com/gmtsciencedev/bioit-dockers)|The source code of above mentionned containers
-[dataverse](#)|The dataverse where the simulated samples are available
+[PRJNA987980](https://www.ncbi.nlm.nih.gov/bioproject/987980)|The simulated sample datasets
 [PRJEB6070](https://www.ebi.ac.uk/ena/browser/view/PRJEB6070) [PRJEB7774](https://www.ebi.ac.uk/ena/browser/view/PRJEB7774)|The original samples from which the simulation was derived|
 [MGNIFY](http://ftp.ebi.ac.uk/pub/databases/metagenomics/mgnify_genomes/human-gut/v2.0.1/)|The MGNIFY genomes upon which the simulation was based on|
 
@@ -61,7 +61,7 @@ All results once projected to MGNIFY are proposed in [reference](./reference/).
 
 The simulation makes extensive use of [CAMISIM](https://github.com/CAMI-challenge/CAMISIM). This required the species composition of the samples to generate ([reference](./reference/)), the genomes specified in these files downloaded from [MGNIFY database](http://ftp.ebi.ac.uk/pub/databases/metagenomics/mgnify_genomes/human-gut/v2.0.1/). Next, the script specified in [scitq-example/camisim](https://github.com/gmtsciencedev/scitq-examples/tree/main/camisim) must be used, as explained in the link. 
 
-Note that the simulation requires extensive resources and time, which is why samples are also directly proposed in [dataverse](#).
+Note that the simulation requires extensive resources and time, which is why samples are also directly proposed in [PRJNA987980](https://www.ncbi.nlm.nih.gov/bioproject/987980).
 
 ### Estimation
 
