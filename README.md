@@ -10,7 +10,7 @@ Item|description
 [container source](https://github.com/gmtsciencedev/bioit-dockers)|The source code of above mentionned containers
 [PRJNA987980](https://www.ncbi.nlm.nih.gov/bioproject/987980)|The simulated sample datasets
 [PRJEB6070](https://www.ebi.ac.uk/ena/browser/view/PRJEB6070) [PRJEB7774](https://www.ebi.ac.uk/ena/browser/view/PRJEB7774)|The original samples from which the simulation was derived|
-[MGNIFY](http://ftp.ebi.ac.uk/pub/databases/metagenomics/mgnify_genomes/human-gut/v2.0.1/)|The MGNIFY genomes upon which the simulation was based on|
+[UHGG](http://ftp.ebi.ac.uk/pub/databases/metagenomics/mgnify_genomes/human-gut/v2.0.1/)|The MGNIFY genomes upon which the simulation was based on|
 
 ## Locally in this repository
 
@@ -19,9 +19,6 @@ Item|description
 - the reference, the true species composition of sample, the one that was used for simulation is available in the [reference](./reference/) folder
 - the different feature space (a.k.a. reference catalogs) projections in [feature_space_projections](./feature_space_projections/)
 
-## Related data also used in this work
-
--  the IGC2 catalog: [https://entrepot.recherche.data.gouv.fr/dataset.xhtml?persistentId=doi:10.15454/FLANUP](https://entrepot.recherche.data.gouv.fr/dataset.xhtml?persistentId=doi:10.15454/FLANUP)
 
 
 ## Processing steps
@@ -32,7 +29,7 @@ Most of these steps require a significant amount of computational power. It may 
 
 ### Initial measurements (reference)
 
-The initial measurements are obtained through 3 different tools: Kraken, MetaPhlAn and Biomscope. Biomscope is a closed source pipeline, property of GMT Science, please go through our [contact form](https://gmt.bio/#contact) if you want to negociate some access. Others tools are public: [MetaPhlAn](https://github.com/biobakery/MetaPhlAn) and [Kraken](https://github.com/DerrickWood/kraken2), and some advices are proposed here to ease their use.
+The initial measurements are obtained through 2 different tools: [MetaPhlAn](https://github.com/biobakery/MetaPhlAn) and [Kraken](https://github.com/DerrickWood/kraken2), and some advices are proposed here to ease their use.
 
 The initial data was fetched from EBI, using [PRJEB6070](https://www.ebi.ac.uk/ena/browser/view/PRJEB6070) and [PRJEB7774](https://www.ebi.ac.uk/ena/browser/view/PRJEB7774).
 
@@ -40,7 +37,7 @@ A sample code to download and filter the data from a bioproject accession is exp
 
 Some python scripts to distribute the tasks on scitq are proposed for [MetaPhlAn](https://github.com/gmtsciencedev/scitq-examples/tree/main/metaphlan4) and [Kraken](https://github.com/gmtsciencedev/scitq-examples/tree/main/kraken2). 
 
-For Kraken, non default options were used: the [MGNIFY database](http://ftp.ebi.ac.uk/pub/databases/metagenomics/mgnify_genomes/human-gut/v2.0.1/kraken2_db_uhgg_v2.0.1/) was used, the files were deposited in a folder, `krakenmgnify`. A tar archive was then created with `tar czf krakenmgnify2.0.1.tgz krakenmgnify/`, this archived was then uploaded to an S3 bucket, `s3://rnd/resource/krakenmgnify2.0.1.tgz`, and the script was used with the following options: 
+For Kraken, non default options were used: the [UHGG MGNIFY database](http://ftp.ebi.ac.uk/pub/databases/metagenomics/mgnify_genomes/human-gut/v2.0.1/kraken2_db_uhgg_v2.0.1/) was used, the files were deposited in a folder, `krakenmgnify`. A tar archive was then created with `tar czf krakenmgnify2.0.1.tgz krakenmgnify/`, this archived was then uploaded to an S3 bucket, `s3://rnd/resource/krakenmgnify2.0.1.tgz`, and the script was used with the following options: 
 
 ```bash
 python ~/scitq-examples/kraken2/scitq_kraken2.py --bracken --database krakenmgnify --fastq --download --batch refKrak s3://rnd/data/raw/refKrak s3://rnd/resource/krakenmgnify2.0.1.tgz s3://rnd/refKrak/rawresult
@@ -53,7 +50,6 @@ The method used to obtain this projection is:
 - extraction of genomes from MetaPhlAn database using the script [feature_space_projections/code/metaphlan_genome_extractor.py](./feature_space_projections/code/metaphlan_genome_extractor.py), 
 - projection of genomes on MGNIFY using Kraken (same as above but without `--bracken` option).
 
-A similar code was used on IGC2 to project Biomscope results on MGNIFY.
 
 All results once projected to MGNIFY are proposed in [reference](./reference/).
 
@@ -77,12 +73,12 @@ Details are given in each link. The obtained (raw) results are given in [figure_
 
 ### Projection
 
-The raw results obtained above were then projected either to IGC2 or to GTDB. The projection tables are available in [feature_space_projections](./feature_space_projections/). And the transposed results are proposed in [figure_data/data](./figure_data/data/).
+The raw results obtained above were then projected either to UHGG or to GTDB. The projection tables are available in [feature_space_projections](./feature_space_projections/). And the transposed results are proposed in [figure_data/data](./figure_data/data/).
 
 The projection tables were obtained :
 
-- in the case of GTDB, using Kraken on reference genomes extracted from tool catalogs in the same manner as explained for MetaPhlAn in [initial mesurements](#initial-measurements-reference), except that GTDB database was used instead of MGNIFY database, 
-- in the case of IGC2, reads were extracted from reference genomes, and submitted to Biomscope, and then when it was unsufficient, reference genomes were projected to MGNIFY (as explained for MetaPhlAn in [initial mesurements](#initial-measurements-reference)), and reads from the corresponding MGNIFY genomes were submitted to Biomscope.
+- in the case of GTDB, using Kraken on reference genomes extracted from tool catalogs in the same manner as explained for MetaPhlAn in [initial mesurements](#initial-measurements-reference), except that GTDB database was used instead of UHGG database, 
+- in the case of UHGG, reads were extracted from reference genomes, and submitted to Biomscope, and then when it was unsufficient, reference genomes were projected to UHGG (as explained for MetaPhlAn in [initial mesurements](#initial-measurements-reference)), and reads from the corresponding UHGG genomes were submitted to Biomscope.
 
 ### Comparison
 

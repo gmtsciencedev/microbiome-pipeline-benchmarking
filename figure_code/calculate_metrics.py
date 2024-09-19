@@ -4,20 +4,17 @@ from __future__ import division
 import numpy as np
 import pandas as pd
 from scipy.spatial.distance import braycurtis, cosine, pdist, squareform, jensenshannon
-# from scipy.stats import spearmanr, pearsonr
-# from skbio.stats.distance import mantel
 import sys, os
 
 from metrics_aux import *
-# from article_figures import *
 
 
-simu = "refKrak"#"simuCRC2k"#"simuCRC2b"#"simuCRC"
-space = "gtdb207"#"msp"#"gtdb207"
-names = ["kraken2 + bracken", "metaphlan3", "motus3", "metaphlan4", "biomscope"]
+simu = "refKrak"#"refKrak"#"refMet4"
+space = "gtdb207"#"uhgg"#"gtdb207"
+names = ["kraken2 + bracken", "metaphlan3", "motus3", "metaphlan4"]
 
 indir = "../data/{}_to_{}/".format(simu, space)
-fnames = ["kraken2", "metaphlan3", "motus3", "metaphlan4", "biomscope"]
+fnames = ["kraken2", "metaphlan3", "motus3", "metaphlan4"]
 
 supersat = pd.read_csv(indir + "supersat_{}_{}.sat".format(simu, space), sep="\t", index_col=(0,1))
 matched_sats = [supersat[name].unstack() for name in fnames]
@@ -67,16 +64,12 @@ if __name__ == "__main__":
     #distance between real sample and simulation
     if metric == "braycurtis":
         dist_to_ref = pd.DataFrame(pd.DataFrame({name : [braycurtis(sat[smpl], sat_ref[smpl]) for smpl in smpls] for name, sat in zip(names, matched_sats)}, index=smpls))
-        # lab="Bray-Curtis distance"
     elif metric == "jensenshannon":
         dist_to_ref = pd.DataFrame(pd.DataFrame({name : [jensenshannon(sat[smpl], sat_ref[smpl]) for smpl in smpls] for name, sat in zip(names, matched_sats)}, index=smpls))
-        # lab="Jensen-Shannon distance"
     elif metric == "cosine_sqrt":
         dist_to_ref = pd.DataFrame(pd.DataFrame({name : [cosine_sqrt(sat[smpl], sat_ref[smpl]) for smpl in smpls] for name, sat in zip(names, matched_sats)}, index=smpls))
-        # lab="cosine-sqrt distance"
 
     dist_to_ref.to_csv(outdir + "dist_to_ref.tsv", sep="\t")
-    # dist_to_ref.sort_values(by="biomscope", inplace=True)
 
     #--------------------------------------------------------------------
     #Richness
@@ -106,3 +99,17 @@ if __name__ == "__main__":
     superconf = pd.concat([conf.stack().rename(name) for name, conf in zip(names, confs)], axis=1)
     superconf.to_csv(outdir + "../superconf_{}_{}.tsv".format(simu, space), sep="\t")
 
+    if True:
+        #saving detailed information on false positives and false negatives
+        summary = []
+        for fname, conf, sat in zip(fnames, confs, matched_sats):
+            print(fname)
+            for smpl, FPRA in conf["FPRA"].sort_values(ascending=False).items():
+                x, y = sat_ref[smpl], sat[smpl]
+                FPs = y[(x==0)&(y>0)].sort_values(ascending=False)
+                summary.extend([[fname, smpl, sp, fpra, 0.] for sp, fpra in FPs.items()])
+                FNs = x[(x>0)&(y==0)].sort_values(ascending=False)
+                summary.extend([[fname, smpl, sp, 0., fnra] for sp, fnra in FNs.items()])
+
+        summary = pd.DataFrame(summary, columns=["tool", "sample", "feature", "FPRA", "FNRA"])
+        summary.to_csv(outdir + "../FPRA_summary.tsv", sep="\t", index=False)

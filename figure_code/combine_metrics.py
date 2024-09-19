@@ -5,9 +5,9 @@ import numpy as np
 import pandas as pd
 import os
 
-names = ["kraken2 + bracken", "metaphlan3", "motus3", "metaphlan4", "biomscope"]
-simuls = ["refBioms", "refKrak", "refMet4"]#["simuCRC", "simuCRC2b", "simuCRC2k"]
-spaces = ["gtdb207", "igc2"]
+names = ["kraken2 + bracken", "metaphlan3", "motus3", "metaphlan4"]
+simuls = ["refKrak", "refMet4"]
+spaces = ["gtdb207", "uhgg"]
 
 if __name__ == "__main__":
     """
@@ -44,25 +44,38 @@ if __name__ == "__main__":
 
     #--------------------------------------------------------------------------
     #Lost abundance and clades
-    lost_abundance = []
-    lost_clades = []
+    # lost_abundance = []
+    # lost_clades = []
+    # for jsp, sp in enumerate(spaces):
+    #     for simu in simuls:
+    #         # indir = "../analyses/article_results_{}_{}/".format(simu, sp)
+    #         indir = "../data/{}_to_{}/".format(simu, sp)
+    #         lost_ab = pd.read_csv(indir + "lost_abundance.tsv", sep="\t", index_col=0)
+    #         lost_ab[["space", "simu"]] = [sp, simu]
+    #         lost_abundance.append(lost_ab)
+            
+    #         lost_cl = pd.read_csv(indir + "lost_clades.tsv", sep="\t", index_col=0)
+    #         lost_cl[["space", "simu"]] = [sp, simu]
+    #         lost_clades.append(lost_cl)
+
+    # lost_abundance = pd.concat(lost_abundance).set_index(["space", "simu"], append=True)
+    # lost_clades = pd.concat(lost_clades).set_index(["space", "simu"], append=True)
+    # lost_abundance.to_csv(outdir + "lost_abundance.tsv", sep="\t")
+    # lost_clades.to_csv(outdir + "lost_clades.tsv", sep="\t")
+
+    lost_summary = []
     for jsp, sp in enumerate(spaces):
         for simu in simuls:
-            # indir = "../analyses/article_results_{}_{}/".format(simu, sp)
             indir = "../data/{}_to_{}/".format(simu, sp)
-            lost_ab = pd.read_csv(indir + "lost_abundance.tsv", sep="\t", index_col=0)
-            lost_ab[["space", "simu"]] = [sp, simu]
-            lost_abundance.append(lost_ab)
+            lost_sum = pd.read_csv(indir + "lost_summary.tsv", sep="\t", index_col=(0,1))
+            lost_sum[["space", "simu"]] = [sp, simu]
+            lost_summary.append(lost_sum)
             
-            lost_cl = pd.read_csv(indir + "lost_clades.tsv", sep="\t", index_col=0)
-            lost_cl[["space", "simu"]] = [sp, simu]
-            lost_clades.append(lost_cl)
-
-    lost_abundance = pd.concat(lost_abundance).set_index(["space", "simu"], append=True)
-    lost_clades = pd.concat(lost_clades).set_index(["space", "simu"], append=True)
-    lost_abundance.to_csv(outdir + "lost_abundance.tsv", sep="\t")
-    lost_clades.to_csv(outdir + "lost_clades.tsv", sep="\t")
-
+    lost_summary = pd.concat(lost_summary).set_index(["space", "simu"], append=True)
+    lost_summary.index.rename("stat", level=1, inplace=True)
+    lost_summary.index.rename("sample", level=0, inplace=True)
+    lost_summary.to_csv(outdir + "lost_summary.tsv", sep="\t")
+    
     #--------------------------------------------------------------------------
     #richness and shannon entropy            
     richness = []
@@ -96,12 +109,26 @@ if __name__ == "__main__":
     superconf.to_csv(outdir + "superconf.tsv", sep="\t")
 
     #--------------------------------------------------------------------------
+    #assembling fpra/fnra summary
+    fpra_summary = []
+    for sp in spaces:
+        for simu in simuls:
+            indir = "../analyses/article_results_{}_{}/".format(simu, sp)
+            df = pd.read_csv(indir + "FPRA_summary.tsv", sep="\t", index_col=[0,1])
+            df[["space", "simu"]] = [sp, simu]
+            fpra_summary.append(df)
+
+    fpra_summary = pd.concat(fpra_summary).set_index(["space", "simu"], append=True)
+    fpra_summary.to_csv(outdir + "FPRA_summary.tsv", sep="\t")
+
+    #--------------------------------------------------------------------------
     #assembling tables
     richness_diff = richness[names].sub(richness["simulation"], axis=0)
     shannon_diff = shannon[names].sub(shannon["simulation"], axis=0)
 
-    data = [lost_abundance,
-             lost_clades, 
+    lost_summary.rename(columns={'kraken2': 'kraken2 + bracken', 'reference': 'simulation'}, inplace=True)
+    data = [lost_summary.xs('Lost_abundance', level=1),
+             lost_summary.xs('Lost_mOTUs', level=1), 
              richness, 
              shannon,
              richness_diff,
@@ -110,7 +137,8 @@ if __name__ == "__main__":
              dist_to_ref_wu,
              superconf.xs("TPR", level=1),
              superconf.xs("PPV", level=1),
-             superconf.xs("FPRA", level=1)]
+             superconf.xs("FPRA", level=1),
+             superconf.xs("FNRA", level=1)]
 
     data_names = ["lost_abundance",
                    "lost_clades",
@@ -122,7 +150,8 @@ if __name__ == "__main__":
                    "unifrac",
                    "TPR",
                    "PPV",
-                   "FPRA"]
+                   "FPRA",
+                   "FNRA"]
 
     if not os.path.exists(outdir + "quarts/"):
         os.makedirs(outdir + "quarts/")

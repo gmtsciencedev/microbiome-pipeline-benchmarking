@@ -1,0 +1,21 @@
+tool	simu	space	q25	q50	q75	iqr
+simulation	refMet4	gtdb207	0.0	0.0	0.0	0.0
+simulation	refMet4	uhgg	0.0	0.0	0.0	0.0
+simulation	refKrak	gtdb207	0.0	0.0	0.0	0.0
+simulation	refKrak	uhgg	0.0	0.0	0.0	0.0
+motus3	refMet4	gtdb207	0.0	0.0	1.0	1.0
+motus3	refMet4	uhgg	0.0	0.0	0.0	0.0
+motus3	refKrak	gtdb207	0.0	1.0	2.0	2.0
+motus3	refKrak	uhgg	0.0	0.0	1.0	1.0
+metaphlan4	refMet4	gtdb207	0.0	0.0	0.0	0.0
+metaphlan4	refMet4	uhgg	0.0	0.0	0.0	0.0
+metaphlan4	refKrak	gtdb207	0.0	0.0	0.0	0.0
+metaphlan4	refKrak	uhgg	0.0	0.0	0.0	0.0
+metaphlan3	refMet4	gtdb207	0.0	0.0	0.0	0.0
+metaphlan3	refMet4	uhgg	0.0	0.0	0.0	0.0
+metaphlan3	refKrak	gtdb207	0.0	0.0	0.0	0.0
+metaphlan3	refKrak	uhgg	0.0	0.0	0.0	0.0
+kraken2 + bracken	refMet4	gtdb207	0.0	0.0	0.0	0.0
+kraken2 + bracken	refMet4	uhgg	63.0	72.0	82.0	19.0
+kraken2 + bracken	refKrak	gtdb207	0.0	0.0	0.0	0.0
+kraken2 + bracken	refKrak	uhgg	78.0	92.0	105.5	27.5

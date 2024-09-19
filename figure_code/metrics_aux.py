@@ -43,6 +43,7 @@ def confusion_matrix(X, X0, samples, thr=0., thr0=0., to_file=''):
     P_F = np.mean(X <= thr, axis=0) #probability of negative outcome
     
     FPRA = np.sum(X * (X0 <= 0.), axis=0) #false positive relative abundance
+    FNRA = np.sum((X <= 0.) * X0, axis=0) #relative abundance of false negatives
     F1 = 2. * TP / (2. * TP + FP + FN + h) # F1-score
     ACC = (TP + TN) / (TP + TN + FP + FN + h) #Accuracy
     df = pd.DataFrame({'TP' : TP,\
@@ -60,6 +61,7 @@ def confusion_matrix(X, X0, samples, thr=0., thr0=0., to_file=''):
                        'P_T': P_T,\
                        'P_F': P_F,\
                        'FPRA': FPRA,\
+                       'FNRA': FNRA,\
                        'F1': F1,\
                        'ACC': ACC,\
                        'Dice': (FN + FP)/(2 * TP + FN + FP)}, index=samples)
