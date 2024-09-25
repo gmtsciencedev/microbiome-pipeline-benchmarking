@@ -18,6 +18,7 @@ Item|description
 - the figure data available in the [figure_data](./figure_data) folder
 - the reference, the true species composition of sample, the one that was used for simulation is available in the [reference](./reference/) folder
 - the different feature space (a.k.a. reference catalogs) projections in [feature_space_projections](./feature_space_projections/)
+- some practical guidelines have been added in the [guidelines](./guidelines) folder.
 
 
 
